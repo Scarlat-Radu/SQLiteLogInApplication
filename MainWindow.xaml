@@ -3,22 +3,339 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF_SQLite_Demo" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:WPF_SQLite_Demo"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="{DynamicResource FontSizeMain}"
+             FontFamily="{materialDesign:MaterialDesignFont}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Loaded="Window_Loaded">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="b2v" />
+        <DataTemplate DataType="{x:Type dragablz:HeaderedItemViewModel}">
+            <ContentControl Content="{Binding Content}" Margin="0" FontSize="{DynamicResource FontSizeMain}" />
+        </DataTemplate>
+        <dragablz:InterTabController x:Key="InterTabController" x:Shared="False" InterTabClient="{Binding InterTabClient}" Partition="2AE89D18-F236-4D20-9605-6C03319038E6" />
+    </Window.Resources>
+    
     <Grid>
-        <GroupBox x:Name="gbDbTable" Grid.Row="1" Grid.Column="4" Grid.RowSpan="3" Visibility="Visible">
-            <DataGrid x:Name="dbTable" 
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <dragablz:TabablzControl TabStripPlacement="Top" x:Name="TabMain" FixedHeaderCount="1"  ShowDefaultCloseButton="True" ShowDefaultAddButton="True" ItemsSource="{Binding Items}" HeaderMemberPath="Header"  >
+            <dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController/>
+            </dragablz:TabablzControl.InterTabController>
+            <dragablz:TabablzControl.HeaderPrefixContent>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="bLogIn" Click="bLogIn_Click" Grid.Column="1"  Style="{DynamicResource MaterialDesignRaisedButton}"  materialDesign:ButtonAssist.CornerRadius="50" Padding="{DynamicResource IconPadding}" Height="auto" Margin="{DynamicResource IconMargin}">
+                        <materialDesign:PackIcon Kind="AccountCircle" Height="{DynamicResource IconHeight}" Width="{DynamicResource IconWidth}"/>
+                    </Button>
+                    <TextBlock x:Name="tbCurrentUser" Grid.Column="2" Text="LogIn" VerticalAlignment="Center" Foreground="White"></TextBlock>
+                    <!--<Button x:Name="bSettings" Grid.Column="0"  Style="{DynamicResource MaterialDesignRaisedButton}"  materialDesign:ButtonAssist.CornerRadius="50" Padding="{DynamicResource IconPadding}" Height="auto" Margin="{DynamicResource IconMargin}">
+                            <materialDesign:PackIcon Kind="PipeWrench" Height="{DynamicResource IconHeight}" Width="{DynamicResource IconWidth}"/>
+                        </Button>-->
+                </Grid>
+
+            </dragablz:TabablzControl.HeaderPrefixContent>
+            <TabItem Header="Main">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" >
+                        <TextBlock Text="Program Settings" Margin="10" VerticalAlignment="Center"></TextBlock>
+                        <materialDesign:DrawerHost x:Name="DrawerHost2" Grid.Column="1" Margin="2"  Height="50"  VerticalContentAlignment="Center" HorizontalAlignment="Left"  VerticalAlignment="Center"  
+                                   BorderThickness="0"  Background="Transparent"  BottomDrawerCornerRadius="0 0 0 0"  BottomDrawerBackground="Transparent">
+                            <materialDesign:DrawerHost.Style>
+                                <Style TargetType="materialDesign:DrawerHost"      BasedOn="{StaticResource {x:Type materialDesign:DrawerHost}}"></Style>
+                            </materialDesign:DrawerHost.Style>
+                            <materialDesign:DrawerHost.RightDrawerContent>
+                                <StackPanel      Margin="0"   Orientation="Horizontal">
+                                    <Grid x:Name="DrawerGrid2" >
+                                        <Grid.RowDefinitions>
+
+                                            <RowDefinition Height="auto" ></RowDefinition>
+                                            <RowDefinition Height="auto" />
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btToolBarSettingsSave" ToolTip="Save" Grid.Column="1" Style="{DynamicResource MaterialDesignIconForegroundButton}"  Height="28" Width="28" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="ContentSaveOutline" Height="{DynamicResource IconHeightSmall}" Width="{DynamicResource IconWidthSmall}"/>
+                                        </Button>
+                                        <Button     Grid.Column="8"  Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"  ToolTip="Close"      CommandParameter="{x:Static Dock.Right}"  Width="30" Height="30"  Margin="5"  Style="{DynamicResource MaterialDesignIconForegroundButton}"                                                 materialDesign:ButtonAssist.CornerRadius="50" >
+                                            <materialDesign:PackIcon Kind="ChevronLeft" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </materialDesign:DrawerHost.RightDrawerContent>
+                            <Button  x:Name="btToolBarOpen"    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"  HorizontalAlignment="Left"  ToolTip="Options"  CommandParameter="{x:Static Dock.Right}"  Width="30" Height="30"  Margin="5"  Style="{DynamicResource MaterialDesignIconForegroundButton}" 
+                          materialDesign:ButtonAssist.CornerRadius="50" >
+                                <materialDesign:PackIcon Kind="ChevronRight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                        </materialDesign:DrawerHost>
+                    </StackPanel>
+
+                    <TabControl  x:Name="tabControlSettings"
+                                 Grid.Row="1" Grid.Column="0" Grid.RowSpan="10"
+                                 Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+                                 Background="Transparent"
+                                 materialDesign:NavigationRailAssist.SelectionCornerRadius="0 20 20 0"
+                                 materialDesign:NavigationRailAssist.ShowSelectionBackground="True">
+                        <TabItem x:Name="tabUserSettings"
+                                 Width="200"
+                                 Height="30">
+                            <TabItem.Header>
+                                <Grid
+                        HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon 
+                                        Grid.Column="0"
+                                        Margin="-40,0,0,0"
+                                        Kind="UserOutline"
+                                        Width="24"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" 
+                                               Margin="0,0,0,0"
+                                               Text="User Settings"
+                                               HorizontalAlignment="Left" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </TabItem.Header>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                                    Foreground="{StaticResource PrimaryHueMidBrush}"
+                                    Padding="10">
+                                    User Settings
+                                </TextBlock>
+                                <materialDesign:Card
+                                    Width="400"
+                                    Height="auto"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
+                                    materialDesign:UniformCornerRadius="20"
+                                    Padding="10">
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Text="Change your user name and password."
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Padding="5">
+                                            </TextBlock>
+                                            <Button x:Name="btModifyUserCredentials" Click="btModifyUserCredentials_Click" ToolTip="Save changes" Grid.Column="1" Style="{DynamicResource MaterialDesignIconForegroundButton}"  Height="28" Width="28" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                <materialDesign:PackIcon Kind="PencilOutline" Height="{DynamicResource IconHeightSmall}" Width="{DynamicResource IconWidthSmall}"/>
+                                            </Button>
+                                            <TextBox x:Name="tbUserNameSettings"
+                                                     materialDesign:HintAssist.Hint="UserName" 
+                                                     Width="150"
+                                                     Grid.Row="1"
+                                                     Grid.Column="0"
+                                                     Padding="0"
+                                                     Margin="0" 
+                                                     FontSize="12" 
+                                                     HorizontalAlignment="Left"
+                                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                            </TextBox>
+                                            <PasswordBox x:Name="tbUserPasswordSettings"
+                                                         materialDesign:HintAssist.Hint="Password" 
+                                                         Style="{StaticResource MahApps.Styles.PasswordBox.Button.Revealed}"
+                                                         VerticalContentAlignment="Center"
+                                                         BorderThickness="1"
+                                                         Width="150"
+                                                         Grid.Column="1"
+                                                         Grid.Row="1"
+                                                         Padding="0"
+                                                         Margin="0" 
+                                                         FontSize="12" >
+                                                <!--  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" >
+                                    <mah:PasswordBoxHelper.RevealButtonContent="true "/>-->
+                                            </PasswordBox>
+                                        </Grid>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem
+                Width="200"
+                Height="30">
+                            <TabItem.Header>
+                                <Grid
+                        HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon 
+                            Grid.Column="0"
+                            Margin="-45,0,0,0"
+                            Kind="PaletteOutline"
+                            Width="24"
+                            Height="24"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" 
+                                   Margin="0,0,0,0"
+                            Text="Appearence"
+                            HorizontalAlignment="Left" 
+                             VerticalAlignment="Center"/>
+                                </Grid>
+                            </TabItem.Header>
+                            <StackPanel>
+                                <TextBlock
+                        Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                        Foreground="{StaticResource PrimaryHueMidBrush}"
+                        Padding="10">
+                        Appearence
+                                </TextBlock>
+                                <materialDesign:Card
+                        Width="400"
+                        Height="auto"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
+                    materialDesign:UniformCornerRadius="20"
+                    Padding="10">
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Text="Enable Dark Mode"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Padding="5">
+                                            </TextBlock>
+                                            <ToggleButton x:Name="tgColor"
+                                                          Click="tgColor_Click"
+                                                          Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                          HorizontalAlignment="Right"
+                                                          Grid.Row="0"
+                                                          Grid.Column="1">
+                                            </ToggleButton>
+                                        </Grid>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </StackPanel>
+                        </TabItem>
+                    
+                        <TabItem x:Name="tabDbViewer"
+                Width="230"
+                Height="30">
+                            <TabItem.Header>
+                                <Grid
+                        HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon 
+                                        Grid.Column="0"
+                                        Kind="Database"
+                                        Margin="-40,0,0,0"
+                                        Width="24"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" 
+                                               Margin="0,0,0,0"
+                                               Text="Users DataBase"
+                                               HorizontalAlignment="Left" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </TabItem.Header>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                                    Foreground="{StaticResource PrimaryHueMidBrush}"
+                                    Padding="10">
+                                    DB Viewer
+                                </TextBlock>
+                                <materialDesign:Card
+                                    Width="auto"
+                                    Height="auto"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
+                                    materialDesign:UniformCornerRadius="20"
+                                    Padding="10">
+                                    <StackPanel x:Name="spDbViewer" Orientation="Vertical">
+                                        <DockPanel x:Name="gbDbTable"  Visibility="Visible">
+                                            <DataGrid x:Name="dbTable" 
                       ItemsSource="{Binding}" ColumnWidth="SizeToHeader" IsReadOnly="True"
                       CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False">
-            </DataGrid>
-        </GroupBox>
-        <materialDesign:DialogHost x:Name="dialogLogin" IsOpen="True" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
-            <materialDesign:DialogHost.DialogContent>
+                                            </DataGrid>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </StackPanel>
 
-                <local:LogInControl x:Name="logInControl" Visibility = "Visible" ></local:LogInControl >
-            </materialDesign:DialogHost.DialogContent>
-        </materialDesign:DialogHost>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+                
+            </TabItem>
+        </dragablz:TabablzControl>
+
+
+
+        <local:LogInControl x:Name="logInControl" Visibility = "Visible" ></local:LogInControl >
+
     </Grid>
 </Window>
