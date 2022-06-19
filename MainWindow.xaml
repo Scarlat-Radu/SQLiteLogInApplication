@@ -1,0 +1,24 @@
+﻿<Window x:Class="WPF_SQLite_Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_SQLite_Demo" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <Grid>
+        <GroupBox x:Name="gbDbTable" Grid.Row="1" Grid.Column="4" Grid.RowSpan="3" Visibility="Visible">
+            <DataGrid x:Name="dbTable" 
+                      ItemsSource="{Binding}" ColumnWidth="SizeToHeader" IsReadOnly="True"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False">
+            </DataGrid>
+        </GroupBox>
+        <materialDesign:DialogHost x:Name="dialogLogin" IsOpen="True" Style="{StaticResource MaterialDesignEmbeddedDialogHost}">
+            <materialDesign:DialogHost.DialogContent>
+
+                <local:LogInControl x:Name="logInControl" Visibility = "Visible" ></local:LogInControl >
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+    </Grid>
+</Window>
