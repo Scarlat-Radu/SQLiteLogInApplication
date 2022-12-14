@@ -36,5 +36,8 @@ namespace WPF_SQLite_Demo
         public bool IsAdmin { get; set; }
         public bool RememberMe { get; set; }
         public DateTime LogedInTime { get; set; }
+
+        public bool IsOnline { get; set; }
+        public string IpPort { get; set; }
     }
 }

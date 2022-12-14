@@ -15,20 +15,20 @@
         Title="MainWindow" Height="450" Width="800"
         Loaded="Window_Loaded">
     <Window.Resources>
+
         <BooleanToVisibilityConverter x:Key="b2v" />
         <DataTemplate DataType="{x:Type dragablz:HeaderedItemViewModel}">
             <ContentControl Content="{Binding Content}" Margin="0" FontSize="{DynamicResource FontSizeMain}" />
         </DataTemplate>
         <dragablz:InterTabController x:Key="InterTabController" x:Shared="False" InterTabClient="{Binding InterTabClient}" Partition="2AE89D18-F236-4D20-9605-6C03319038E6" />
     </Window.Resources>
-    
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <dragablz:TabablzControl TabStripPlacement="Top" x:Name="TabMain" FixedHeaderCount="1"  ShowDefaultCloseButton="True" ShowDefaultAddButton="True" ItemsSource="{Binding Items}" HeaderMemberPath="Header"  >
+        <dragablz:TabablzControl  x:Name="TabMain"  TabStripPlacement="Top" FixedHeaderCount="1"  ShowDefaultCloseButton="True" ShowDefaultAddButton="True" ItemsSource="{Binding Items}" HeaderMemberPath="Header"  >
             <dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController/>
             </dragablz:TabablzControl.InterTabController>
@@ -57,7 +57,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -65,7 +65,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" >
                         <TextBlock Text="Program Settings" Margin="10" VerticalAlignment="Center"></TextBlock>
@@ -114,7 +114,7 @@
                         </materialDesign:DrawerHost>
                     </StackPanel>
 
-                    <TabControl  x:Name="tabControlSettings"
+                    <TabControl  x:Name="tabControlSettings" 
                                  Grid.Row="1" Grid.Column="0" Grid.RowSpan="10"
                                  Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
                                  Background="Transparent"
@@ -153,7 +153,6 @@
                                     User Settings
                                 </TextBlock>
                                 <materialDesign:Card
-                                    Width="400"
                                     Height="auto"
                                     materialDesign:ShadowAssist.ShadowDepth="Depth3"
                                     materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
@@ -277,11 +276,11 @@
                         </TabItem>
                     
                         <TabItem x:Name="tabDbViewer"
-                Width="230"
-                Height="30">
+                                 Width="230"
+                                 Height="30">
                             <TabItem.Header>
                                 <Grid
-                        HorizontalAlignment="Left">
+                                    HorizontalAlignment="Left">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
@@ -315,11 +314,63 @@
                                     materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
                                     materialDesign:UniformCornerRadius="20"
                                     Padding="10">
+                                    <StackPanel x:Name="spAddUSers" Orientation="Vertical">
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock x:Name="textAdminBoxHeader" Text="AddUser" Grid.Row="0" Grid.Column="0" Foreground="Black"></TextBlock>
+                                            <Button x:Name="bRemoveNewUser" Click="bRemoveNewUser_Click" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip="RemoveUser"
+                        Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}" Padding="{DynamicResource IconPadding}"
+                          Height="auto" Width="auto" Margin="{DynamicResource IconMargin}">
+                                                <materialDesign:PackIcon Kind="Minus" Height="10" Width="10"/>
+                                            </Button>
+                                            <Button x:Name="bModifyUser" Click="bModifyUser_Click"  Grid.Row="1" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip="RemoveUser"
+                        Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}" Padding="{DynamicResource IconPadding}"
+                          Height="auto" Width="auto" Margin="{DynamicResource IconMargin}">
+                                                <materialDesign:PackIcon Kind="ModeEdit" Height="10" Width="10"/>
+                                            </Button>
+                                            <Button x:Name="bAddNewUser" Click="bAddNewUser_Click" Grid.Row="2" Grid.Column="5" HorizontalAlignment="Right" VerticalAlignment="Top" ToolTip="AddNewUSer"
+                        Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}" Padding="{DynamicResource IconPadding}"
+                          Height="auto" Width="auto" Margin="{DynamicResource IconMargin}">
+                                                <materialDesign:PackIcon Kind="Plus" Height="10" Width="10"/>
+
+                                            </Button>
+                                            <TextBox x:Name="tbAddUserName" Grid.Row="1" HorizontalAlignment="Center" materialDesign:HintAssist.Hint="UserName" Padding="0" Margin="3" FontSize="12" Height="32" Width="200" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                            </TextBox>
+                                            <TextBox x:Name="tbUAddserPassword" Grid.Row="2"  HorizontalAlignment="Center" materialDesign:HintAssist.Hint="Password" Padding="0" Margin="3" FontSize="12" Width="200" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                            </TextBox>
+                                            <CheckBox x:Name="ckbAddAsAdmin" Grid.Row="1" Grid.Column="1"  Content="IsAdmin" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignCheckBox}"/>
+
+                                        </Grid>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                                <materialDesign:Card
+                                    Width="auto"
+                                    Height="auto"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
+                                    materialDesign:UniformCornerRadius="20"
+                                    Padding="10">
                                     <StackPanel x:Name="spDbViewer" Orientation="Vertical">
-                                        <DockPanel x:Name="gbDbTable"  Visibility="Visible">
-                                            <DataGrid x:Name="dbTable" 
-                      ItemsSource="{Binding}" ColumnWidth="SizeToHeader" IsReadOnly="True"
-                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False">
+                                        <DockPanel x:Name="gbDbTable"
+                                                   Visibility="Visible" 
+                                                   Background="Transparent">
+                                            <DataGrid x:Name="dbTable"  Background="Transparent"
+                                                      SelectionChanged="dbTable_SelectionChanged"
+                                                      ItemsSource="{Binding}" ColumnWidth="SizeToHeader" IsReadOnly="True"
+                                                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False">
                                             </DataGrid>
                                         </DockPanel>
                                     </StackPanel>
@@ -327,15 +378,217 @@
                             </StackPanel>
 
                         </TabItem>
+                        <TabItem x:Name="tabServer"
+                                 Width="230"
+                                 Height="30">
+                            <TabItem.Header>
+                                <Grid
+                                    HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon 
+                                        Grid.Column="0"
+                                        Kind="Server"
+                                        Margin="-77,0,0,0"
+                                        Width="24"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" 
+                                               Margin="0,0,0,0"
+                                               Text="Server"
+                                               HorizontalAlignment="Left" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </TabItem.Header>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                                    Foreground="{StaticResource PrimaryHueMidBrush}"
+                                    Padding="10">Server
+                                    
+                                </TextBlock>
+                                <materialDesign:Card
+                                    Width="auto"
+                                    Height="auto"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
+                                    materialDesign:UniformCornerRadius="20"
+                                    Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBox x:Name="tbServerIP" Text="192.168.1.150:3333" 
+                                                     Grid.Row="1"
+                                                     HorizontalAlignment="Left"
+                                                     materialDesign:HintAssist.Hint="Server addres(ip+port)" 
+                                                     Padding="0" Margin="3" FontSize="12" Height="32"
+                                                     Width="200" 
+                                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                            </TextBox>
+                                            <TextBox  
+                                                x:Name="tbInfo"
+                                                TextWrapping="Wrap"
+                                                Height="200"
+                                                MaxHeight="200"
+                                                Width="500"
+                                                MaxWidth="500"
+                                                  AcceptsReturn="True"
+                                                  MinLines="10"
+                                                  VerticalScrollBarVisibility="Visible" IsReadOnly="True">
+
+                                            </TextBox>
+                                            <TextBox x:Name="tbServerSendMessage" KeyDown="tbServerSendMessage_KeyDown" Grid.Row="1" HorizontalAlignment="Left" materialDesign:HintAssist.Hint="Message" Padding="0" Margin="3" FontSize="12" Height="32" Width="200" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                            </TextBox>
+
+                                            <Button x:Name="btStartServer" 
+                                                    Click="btStartServer_Click"
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              ToolTip="Start Server"
+                                              Style="{StaticResource MaterialDesignOutlinedDarkButton}" 
+                                              Padding="{DynamicResource IconPadding}"
+                                              Height="auto"
+                                              Margin="{DynamicResource IconMargin}" 
+                                                    Content="Start Server">
+                                            </Button>
+                                            
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock Text="Connected users">
+
+                                            </TextBlock>
+                                            <ListBox x:Name="lbConnectedUsersList" ItemsSource="{Binding Path=UserList}"
+                                                 MinWidth="100" BorderThickness="1" BorderBrush="Black">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding UserName}" ToolTip="{Binding IpPort}"></TextBlock>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </StackPanel>
+                                        <CheckBox x:Name="tgWriteToAll"
+                                                          Style="{StaticResource MaterialDesignAccentCheckBox}"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Bottom"
+                                                          Grid.Column="1"
+                                                      Content="Write to all">
+                                        </CheckBox>
+                                    </Grid>
+                                    
+                                </materialDesign:Card>
+                            </StackPanel>
+
+                        </TabItem>
+                        <TabItem x:Name="tabClient"
+                                 Width="230"
+                                 Height="30">
+                            <TabItem.Header>
+                                <Grid
+                                    HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon 
+                                        Grid.Column="0"
+                                        Kind="Server"
+                                        Margin="-80,0,0,0"
+                                        Width="24"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" 
+                                               Margin="0,0,0,0"
+                                               Text="Client"
+                                               HorizontalAlignment="Left" 
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </TabItem.Header>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource MahApps.Styles.TextBlock.HamburgerMenuHeader}"
+                                    Foreground="{StaticResource PrimaryHueMidBrush}"
+                                    Padding="10">
+                                    Client
+                                </TextBlock>
+                                <materialDesign:Card
+                                    Width="500"
+                                    Height="auto"
+                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left,Right"
+                                    materialDesign:UniformCornerRadius="20"
+                                    Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBox x:Name="tbClientIp"
+                                                     Grid.Row="1" 
+                                                       MaxHeight="200"
+                                                       Width="500"
+                                                       MaxWidth="500"
+                                                     HorizontalAlignment="Left"
+                                                     materialDesign:HintAssist.Hint="Server addres(ip+port)"
+                                                     Padding="0" Margin="3" FontSize="12" 
+                                                     Height="32"
+                                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                            </TextBox>
+                                            <TextBox x:Name="tbClientInfo"
+                                                     Width="500"                                               HorizontalAlignment="Left"
+                                                TextWrapping="Wrap"
+                                                  AcceptsReturn="True"
+                                                  MinLines="10"
+                                                  VerticalScrollBarVisibility="Visible"
+                                                     IsReadOnly="True">
+
+                                            </TextBox>
+                                            <TextBox x:Name="tbClientSendMessage"
+                                                     KeyDown="tbClientSendMessage_KeyDown" 
+                                                     Grid.Row="1"
+                                                     HorizontalAlignment="Left"
+                                                     VerticalAlignment="Center"
+                                                     materialDesign:HintAssist.Hint="Message"
+                                                     Padding="0" 
+                                                     Margin="3" 
+                                                     FontSize="12"
+                                                     Height="32" Width="200" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                            </TextBox>
+
+                                            <Button x:Name="btConnecttServer" Click="btConnecttServer_Click"
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              ToolTip="Connect to Server"
+                                                    Content="Connect to server"
+                                              Style="{StaticResource MaterialDesignOutlinedDarkButton}" 
+                                              Padding="{DynamicResource IconPadding}"
+                                              Height="auto"
+                                              Margin="{DynamicResource IconMargin}" >
+                                            </Button>
+
+                                        </StackPanel>
+                                    </Grid>
+                                </materialDesign:Card>
+                            </StackPanel>
+
+                        </TabItem>
                     </TabControl>
+                    
                 </Grid>
                 
             </TabItem>
         </dragablz:TabablzControl>
 
 
+        <local:StatusControl x:Name="statusControl" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="10"></local:StatusControl>
 
         <local:LogInControl x:Name="logInControl" Visibility = "Visible" ></local:LogInControl >
-
     </Grid>
 </Window>

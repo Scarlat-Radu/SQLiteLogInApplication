@@ -4,8 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace WPF_SQLite_Demo
@@ -15,6 +18,14 @@ namespace WPF_SQLite_Demo
     /// </summary>
     public class Helper
     {
+        public enum MessageType
+        {
+            Default = 0,
+            HandShake = 1,
+            Forward = 2,
+            DbUpdate =3,
+
+        };
         /// <summary>
         /// 
         /// </summary>
@@ -47,6 +58,33 @@ namespace WPF_SQLite_Demo
                 string startupPath = AppDomain.CurrentDomain.BaseDirectory;
 
                 return startupPath;
+            }
+            public static IEnumerable<DataGridRow> DataGridRows(DataGrid grid)
+            {
+                var itemsSource = grid.ItemsSource;
+                if (itemsSource != null)
+                {
+                    if (null == itemsSource) yield return null;
+                    foreach (var item in itemsSource)
+                    {
+                        var row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                        if (null != row) yield return row;
+                    }
+
+                }
+
+            }
+            public static string LocalIPAddress()
+            {
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return ip.ToString();
+                    }
+                }
+                throw new Exception("No network adapters with an IPv4 address in the system!");
             }
         }
         public static ITheme theme;

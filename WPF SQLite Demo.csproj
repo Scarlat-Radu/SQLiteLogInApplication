@@ -61,6 +61,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="SuperSimpleTcp, Version=2.6.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SuperSimpleTcp.2.6.0.8\lib\net461\SuperSimpleTcp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -88,9 +91,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClientClass.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="InterTabClient.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="ServerClass.cs" />
+    <Compile Include="StatusControl.xaml.cs">
+      <DependentUpon>StatusControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserClass.cs" />
     <Page Include="LogInControl.xaml">
       <SubType>Designer</SubType>
@@ -114,6 +122,10 @@
     <Page Include="ResourceDictionarySizes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StatusControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
